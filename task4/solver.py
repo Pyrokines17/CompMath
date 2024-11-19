@@ -49,6 +49,9 @@ def backward_substitution(U, y):
 def plu_solve(A, b):
     P, L, U = plu_decomposition(A)
 
+    print(np.linalg.cond(L))
+    print(np.linalg.cond(U))
+
     y = forward_substitution(L, np.dot(P, b))
     x = backward_substitution(U, y)
 
@@ -56,6 +59,7 @@ def plu_solve(A, b):
 
 def jacobi(A, b, tol=1e-10, max_iter=10000):
     x = np.zeros_like(b, dtype=np.double)
+    counter = 0
 
     T = A - np.diag(np.diagonal(A))
 
@@ -67,10 +71,15 @@ def jacobi(A, b, tol=1e-10, max_iter=10000):
         if np.linalg.norm(x - x_old, ord=np.inf) / np.linalg.norm(x, ord=np.inf) < tol:
             break
 
+        counter += 1
+
+    print("Iterations:", counter)
+
     return x
 
 def gauss_seidel(A, b, tol=1e-10, max_iter=10000):
     x = np.zeros_like(b, dtype=np.double)
+    counter = 0
 
     for i in range(max_iter):
         x_old = x.copy()
@@ -80,6 +89,10 @@ def gauss_seidel(A, b, tol=1e-10, max_iter=10000):
 
         if np.linalg.norm(x - x_old, ord=np.inf) / np.linalg.norm(x, ord=np.inf) < tol:
             break
+
+        counter += 1
+
+    print("Iterations:", counter)
 
     return x
 
