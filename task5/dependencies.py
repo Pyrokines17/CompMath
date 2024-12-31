@@ -38,14 +38,14 @@ def checked_input_float():
     
     return tmp
 
-def check_root(x, roots, eps=1e-10):
+def check_root(x, roots, eps=1e-6):
     for root in roots:
         if np.abs(x - root) < eps:
             return True
     
     return False
 
-def create_gif(points: list, func, num: int):
+def create_gif(points: list, func, num: int, name: str, first: bool):
     fig, ax = plt.subplots()
     
     end = points[-1]
@@ -74,11 +74,20 @@ def create_gif(points: list, func, num: int):
         coord_text.set_text(coord_temp % points[i])
         count_text.set_text(count_temp % i)
         return scat,
+    
+    if first:
+        if not os.path.exists('output'):
+            os.mkdir('output')
+            os.mkdir(f'output/{name}')
+        elif not os.path.exists(f'output/{name}'):
+            os.mkdir(f'output/{name}')
+        else:
+            files = os.listdir(f'output/{name}')
+            for file in files:
+                os.remove(f'output/{name}/{file}')
 
-    if os.path.exists('output'):
-        pass
-    else:
-        os.mkdir('output')
-
-    ani = animation.FuncAnimation(fig, animate, frames=len(points), interval=100)
-    ani.save(f'output/out{num}.gif', writer='imagemagick', fps=1)
+    try:
+        ani = animation.FuncAnimation(fig, animate, frames=len(points), interval=100)
+        ani.save(f'output/{name}/out{num}.gif', writer='imagemagick', fps=1)
+    except Exception as e:
+        print("Error: can't create gif:", e)
