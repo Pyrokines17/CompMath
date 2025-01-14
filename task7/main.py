@@ -178,31 +178,6 @@ def main1():
 
         plt.show()
 
-        res = u[-2]
-        oldRes = ur1[-2]
-        
-        points = ASEGMS
-        ht = AEND / FRAMES
-        id = -1
-        k = 1
-
-        pTests = int(input("Enter the number of tests: "))
-
-        for _ in range(pTests):
-            points = points * 2
-            id = id * 2
-            k = k * 2
-
-            x = np.linspace(0, 5, int(points+1))
-            u = [u1(xi, 0) for xi in x]
-
-            ur1 = chooseMethod1(5, AEND, u, points, k)
-            tempRes = ur1[id-1]
-
-            print("Error: ", error(res, oldRes, tempRes))
-
-            oldRes = tempRes
-
     elif choose == "b":
         x = np.linspace(-1, 1, BSEGMS+1)
         ht = BEND / FRAMES
