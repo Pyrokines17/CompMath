@@ -1,1 +1,1 @@
-# Repository for computational mathematics labs
+# Repository for "Computational mathematics" labs
